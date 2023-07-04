@@ -23,6 +23,7 @@ namespace XIVRUS_Updater
 		public MainWindow()
 		{
 			InitializeComponent();
+
 		}
 	}
 }
