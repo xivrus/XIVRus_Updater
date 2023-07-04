@@ -5,14 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XIVRU_Updater"
         mc:Ignorable="d"
-        Title="HIVRUS Updater" Height="450" Width="800" Background="#FF252525" ResizeMode="CanMinimize" Icon="/icon.ico">
+        Title="HIVRUS Updater" Height="450" Width="800" Background="#FF252525" ResizeMode="CanMinimize" Icon="/icon.ico" WindowStartupLocation="CenterScreen">
     <Grid >
-        <Image Source="/Resources/Logo192.png" Stretch="Fill" VerticalAlignment="Top" Width="128" Height="128" HorizontalAlignment="Center"/>
-        <Button x:Name="DownloadButton" Content="Установить последнюю версию" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontSize="20" Padding="2,2,2,2" HorizontalContentAlignment="Center"/>
-        <TextBlock x:Name="ServerVersion_text" HorizontalAlignment="Left" Margin="5,10,0,0" TextWrapping="Wrap" Text="Актуальная версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
-        <TextBlock x:Name="CurrentVersion_text" HorizontalAlignment="Left" Margin="5,31,0,0" TextWrapping="Wrap" Text="Текущая версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
-        <TextBlock x:Name="Alert_text" HorizontalAlignment="Center" Margin="0,150,0,0" TextWrapping="Wrap" Text="Доступна новая версия!" VerticalAlignment="Top" Foreground="White" FontSize="16" />
-        <Button Content="Настройки" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5"/>
+        <Grid x:Name="MainGrid">
+
+            <Image Source="/Resources/Logo192.png" Stretch="Fill" VerticalAlignment="Top" Width="128" Height="128" HorizontalAlignment="Center"/>
+            <Button x:Name="DownloadButton" Content="Установить последнюю версию" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontSize="20" Padding="2,2,2,2" HorizontalContentAlignment="Center"/>
+            <TextBlock x:Name="ServerVersion_text" HorizontalAlignment="Left" Margin="5,10,0,0" TextWrapping="Wrap" Text="Актуальная версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
+            <TextBlock x:Name="CurrentVersion_text" HorizontalAlignment="Left" Margin="5,31,0,0" TextWrapping="Wrap" Text="Текущая версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
+            <TextBlock x:Name="Alert_text" HorizontalAlignment="Center" Margin="0,150,0,0" TextWrapping="Wrap" Text="Доступна новая версия!" VerticalAlignment="Top" Foreground="White" FontSize="16" />
+            <Button Content="Настройки" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5"/>
+        </Grid>
+        <Frame x:Name="FirtStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible"/>
 
     </Grid>
 </Window>
