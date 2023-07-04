@@ -3,9 +3,14 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <RootNamespace>XIVRU_Updater</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <RootNamespace>XIVRUS_Updater</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="squirrel.windows" Version="2.0.1" />
+  </ItemGroup>
 
 </Project>
