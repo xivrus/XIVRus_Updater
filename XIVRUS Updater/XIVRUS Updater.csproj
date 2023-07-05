@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <RootNamespace>XIVRUS_Updater</RootNamespace>
+  
+    <Version>1.0</Version>
+    <AssemblyVersion>1.0</AssemblyVersion>
+    <FileVersion>1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

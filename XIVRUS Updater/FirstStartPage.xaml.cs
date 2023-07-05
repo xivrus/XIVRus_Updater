@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows.Controls;
 
 namespace XIVRUS_Updater
@@ -9,42 +11,82 @@ namespace XIVRUS_Updater
 	/// </summary>
 	public partial class FirstStartPage : Page
 	{
+		bool checkErrors = false;
+		public MainWindow mainWindow = null;
+
 		public FirstStartPage()
 		{
 			InitializeComponent();
-			bool errors = false;
+			CheckList();
+		}
+
+		void CheckList()
+		{
+			checkErrors = false;
 			XIVLauncher_BTN.Visibility = System.Windows.Visibility.Collapsed;
 			Dalamud_BTN.Visibility = System.Windows.Visibility.Collapsed;
 			Penumbra_BTN.Visibility = System.Windows.Visibility.Collapsed;
+			PenumbraFolder_BTN.Visibility = System.Windows.Visibility.Collapsed;
 			ErrorTextBlocx.Visibility = System.Windows.Visibility.Collapsed;
+			XIVLauncherCheck_TB.Text = "XIV Launcher: Установлен";
+			DalamudCheck_TB.Text = "Dalamud: Установлен";
+			PenumbraCheck_TB.Text = "Penumbra: Установлена";
+			PenumbraFolderCheck_TB.Text = "Penumbra: Настроена";
 
 			string xivLauncherPath = WinDirs.GetXIVLauncherFolder();
 			string xivLauncherConfigPath = WinDirs.GetXIVLauncherConfigFolder();
 
 			if (!File.Exists(String.Format("{0}/XIVLauncher.exe", xivLauncherPath)))
 			{
-				errors = true;
+				checkErrors = true;
 				XIVLauncherCheck_TB.Text = "XIV Launcher: Не Найден!";
 				XIVLauncher_BTN.Visibility = System.Windows.Visibility.Visible;
 			}
 			if (!File.Exists(String.Format("{0}/dalamudConfig.json", xivLauncherConfigPath)))
 			{
-				errors = true;
+				checkErrors = true;
 				DalamudCheck_TB.Text = "Dalamud: Не Найден!";
 				Dalamud_BTN.Visibility = System.Windows.Visibility.Visible;
 			}
-			if (!File.Exists(String.Format("{0}/pluginConfigs/Penumbra.json", xivLauncherConfigPath)))
+			if (!File.Exists(XIVConfigs.PenumbraConfig.GetConfigPath()))
 			{
-				errors = true;
+				checkErrors = true;
 				PenumbraCheck_TB.Text = "Penumbra: Не Найдена!";
+				PenumbraFolderCheck_TB.Text = "Penumbra: Не Найдена!";
 				Penumbra_BTN.Visibility = System.Windows.Visibility.Visible;
 			}
-
-			if (errors)
+			else
 			{
-				DoneButton.IsEnabled = false;
+				XIVConfigs.PenumbraConfigJson pConfig = XIVConfigs.PenumbraConfig.LoadConfig();
+				if (!Directory.Exists(pConfig.ModDirectory))
+				{
+					checkErrors = true;
+					PenumbraFolderCheck_TB.Text = "Penumbra: Не Настроена!";
+					PenumbraFolder_BTN.Visibility = System.Windows.Visibility.Visible;
+				}
+			}
+
+			if (checkErrors)
+			{
+				DoneButton.Content = "Повторить";
 				ErrorTextBlocx.Visibility = System.Windows.Visibility.Visible;
 			}
+			else
+			{
+				DoneButton.Content = "Готово";
+			}
+			
+		}
+
+		private void DoneButton_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			if (checkErrors)
+			{
+				CheckList();
+				return;
+			}
+			ConfigManager.LoadConfig();
+			mainWindow.Init();
 		}
 	}
 }

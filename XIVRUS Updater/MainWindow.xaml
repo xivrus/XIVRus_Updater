@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:XIVRU_Updater"
+        xmlns:local="clr-namespace:XIVRUS_Updater"
         mc:Ignorable="d"
         Title="HIVRUS Updater" Height="450" Width="800" Background="#FF252525" ResizeMode="CanMinimize" Icon="/icon.ico" WindowStartupLocation="CenterScreen">
     <Grid >
@@ -16,7 +16,7 @@
             <TextBlock x:Name="Alert_text" HorizontalAlignment="Center" Margin="0,150,0,0" TextWrapping="Wrap" Text="Доступна новая версия!" VerticalAlignment="Top" Foreground="White" FontSize="16" />
             <Button Content="Настройки" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5"/>
         </Grid>
-        <Frame x:Name="FirtStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible"/>
+        <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
 
     </Grid>
 </Window>

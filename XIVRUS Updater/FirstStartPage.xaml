@@ -16,7 +16,7 @@
 
         </Grid>
         <TextBlock HorizontalAlignment="Center" Margin="0,77,0,0" TextWrapping="Wrap" Text="Для начала мы проведём первоначальную настройку:" VerticalAlignment="Top" Foreground="White" FontSize="18"/>
-        <StackPanel x:Name="CheckListSP" HorizontalAlignment="Center" Height="98" VerticalAlignment="Top" Width="540" Margin="0,119,0,0" >
+        <StackPanel x:Name="CheckListSP" HorizontalAlignment="Center" Height="129" VerticalAlignment="Top" Width="540" Margin="0,119,0,0" >
             <StackPanel x:Name="XIVLauncherCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock x:Name="XIVLauncherCheck_TB" TextWrapping="Wrap" Text="XIV Launcher: Установлен" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
                 <Button x:Name="XIVLauncher_BTN" Content="Скачать" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
@@ -29,9 +29,13 @@
                 <TextBlock x:Name="PenumbraCheck_TB" TextWrapping="Wrap" Text="Penumbra: Установлена" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
                 <Button x:Name="Penumbra_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
             </StackPanel>
+            <StackPanel x:Name="PenumbraFolderCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="PenumbraFolderCheck_TB" TextWrapping="Wrap" Text="Penumbra: Настроена" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
+                <Button x:Name="PenumbraFolder_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </StackPanel>
         </StackPanel>
-        <Button x:Name="DoneButton" Content="Готово" HorizontalAlignment="Center" Margin="0,248,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <TextBlock x:Name="ErrorTextBlocx" HorizontalAlignment="Center" Margin="0,217,0,0" TextWrapping="Wrap" Text="Чего то не достаёт. Проверьте список выше" VerticalAlignment="Top" Foreground="Red" FontSize="16"/>
+        <Button x:Name="DoneButton" Content="Готово" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" FontSize="20" Click="DoneButton_Click"/>
+        <TextBlock x:Name="ErrorTextBlocx" HorizontalAlignment="Center" Margin="0,253,0,0" TextWrapping="Wrap" Text="Чего то не достаёт. Проверьте список выше" VerticalAlignment="Top" Foreground="Red" FontSize="16"/>
 
     </Grid>
 </Page>
