@@ -22,6 +22,9 @@ namespace XIVRUS_Updater
 	public partial class MainWindow : Window
 	{
 		Config config = null;
+		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
+		GitHub.ReleaseJson lastRelease = null;
+		string currentRusInstall = "0.0";
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -37,12 +40,68 @@ namespace XIVRUS_Updater
 				return;
 			}
 			config = ConfigManager.LoadConfig();
+			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
+			LoadCurrentVersion();
+			LoadReleaseInfo();
+
+		}
+
+		void LoadCurrentVersion()
+		{
+			if (penumbraConfig == null)
+			{
+				CurrentVersion_text.Text = "Ошибка конфига Penumbra";
+				ShowError("Ошибка конфига Penumbra", "Ошибка Penumbra", false);
+				return;
+			}
+			string penumbraFolder = penumbraConfig.ModDirectory;
+			if (!Directory.Exists(penumbraFolder))
+			{
+				CurrentVersion_text.Text = "Папка Penumbra не найдена";
+				ShowError("Папка Penumbra не найдена", "Ошибка Penumbra", false);
+				return;
+			}
+			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
+			{
+				CurrentVersion_text.Text = "Текущая версия: Мод отсутствует";
+				return;
+			}
+			XIVConfigs.PenumbraModMetaJson modMeta = XIVConfigs.PenumbraModMeta.GetMetaByDirectory(XIVConfigs.XIVRUSMod.GetModPath(penumbraFolder));
+			if (modMeta == null)
+			{
+				CurrentVersion_text.Text = "Ошибка XIVRUS/meta.json";
+				ShowError("Файл метаданных мода XIVRus повреждён", "Ошибка XIVRUS/meta.json", false);
+				return;
+			}
+			CurrentVersion_text.Text = String.Format("Текущая версия: v{0}", modMeta.Version.Replace("-release", ""));
+			currentRusInstall = modMeta.Version;
+			CurrentVersion_text.ToolTip = modMeta.Version;
+		}
+
+		void LoadReleaseInfo()
+		{
+			lastRelease = GitHub.Releases.GetLastRelease();
+			if (lastRelease == null)
+			{
+				ShowError("Не удалось получить информацию о последнем релизе");
+				return;
+			}
+			ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
 		}
 
 		private void FirstStartPageFrame_LoadCompleted(object sender, NavigationEventArgs e)
 		{
 			FirstStartPage fsp = (FirstStartPage)FirstStartPageFrame.Content;
 			fsp.mainWindow = this;
+		}
+
+		void ShowError(string text, string title = "Ошибка", bool closeapp = true)
+		{
+			MessageBox.Show(text, title, MessageBoxButton.OK, MessageBoxImage.Error);
+			if (closeapp)
+			{
+				Environment.Exit(0);
+			}
 		}
 	}
 }
