@@ -28,6 +28,7 @@ namespace XIVRUS_Updater
 		public MainWindow()
 		{
 			InitializeComponent();
+			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			Init();
 		}
 
@@ -43,6 +44,7 @@ namespace XIVRUS_Updater
 			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
 			LoadCurrentVersion();
 			LoadReleaseInfo();
+			CheckVersion();
 
 		}
 
@@ -89,6 +91,19 @@ namespace XIVRUS_Updater
 			ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
 		}
 
+		void CheckVersion()
+		{
+			string currenversion = String.Format("v{0}", currentRusInstall.Replace("-release", ""));
+			if (currenversion == lastRelease.TagName)
+			{
+				Alert_text.Text = "Установлена актуальная версия";
+			}
+			else
+			{
+				Alert_text.Text = "Доступна новая версия!";
+			}
+		}
+
 		private void FirstStartPageFrame_LoadCompleted(object sender, NavigationEventArgs e)
 		{
 			FirstStartPage fsp = (FirstStartPage)FirstStartPageFrame.Content;
@@ -102,6 +117,11 @@ namespace XIVRUS_Updater
 			{
 				Environment.Exit(0);
 			}
+		}
+
+		private void DownloadButton_Click(object sender, RoutedEventArgs e)
+		{
+			DownloadProgressSP.Visibility = Visibility.Visible;
 		}
 	}
 }
