@@ -184,6 +184,20 @@ namespace XIVRUS_Updater.GitHub
 			}
 
 		}
+
+		public static string GetAssetFileUrlByName(ReleaseJson releasejson, string filename)
+		{
+			string url = null;
+			foreach (Asset asset in releasejson.Assets)
+			{
+				if (asset.Name.ToLower() == filename.ToLower())
+				{
+					url = asset.BrowserDownloadUrl.ToString();
+					break;
+				}
+			}
+			return url;
+		}
 	}
 }
 

@@ -10,6 +10,7 @@ namespace XIVRUS_Updater.XIVConfigs
 	public class XIVRUSMod
 	{
 		public const string MODFOLDERNAME = "XIV Rus";
+		public const string GITHUBASSETNAME = "release.pmp";
 
 		public static bool ModExist(string PenumbraFolder)
 		{

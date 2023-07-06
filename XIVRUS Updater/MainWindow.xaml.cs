@@ -122,6 +122,18 @@ namespace XIVRUS_Updater
 		private void DownloadButton_Click(object sender, RoutedEventArgs e)
 		{
 			DownloadProgressSP.Visibility = Visibility.Visible;
+			string fileurl = GitHub.Releases.GetAssetFileUrlByName(lastRelease, XIVConfigs.XIVRUSMod.GITHUBASSETNAME);
+			System.Diagnostics.Trace.WriteLine(fileurl);
+
+			if (fileurl == null)
+			{
+				ShowError(String.Format("Не удалось найти файл '{0}' в ассетах релиза GitHub", XIVConfigs.XIVRUSMod.GITHUBASSETNAME), closeapp: false);
+				DownloadProgressSP.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			DownloadButton.IsEnabled = false;
+			Downloader.DownloadRelease(fileurl, XIVConfigs.XIVRUSMod.GetModPath(penumbraConfig.ModDirectory), XIVConfigs.XIVRUSMod.GITHUBASSETNAME, "./", DownloadProgressBar, DownloadProgressText, DownloadButton);
 		}
 	}
 }
