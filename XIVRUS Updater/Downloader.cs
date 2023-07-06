@@ -55,6 +55,7 @@ namespace XIVRUS_Updater
 					}
 
 					UnZipArchive(downloadpath, outputfolder);
+					File.Delete(downloadpath);
 
 					if (progressBar != null)
 					{
