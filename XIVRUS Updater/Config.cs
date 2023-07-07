@@ -18,6 +18,7 @@ namespace XIVRUS_Updater
 	public static class ConfigManager
 	{
 		public const string CONFIGFILE = "./Config.json";
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public static Config LoadConfig()
 		{
@@ -29,8 +30,9 @@ namespace XIVRUS_Updater
 					Config config = JsonConvert.DeserializeObject<Config>(json);
 					return config;
 				}
-				catch
+				catch (Exception ex)
 				{
+					Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 					return null;
 				}
 			}
@@ -52,8 +54,9 @@ namespace XIVRUS_Updater
 				File.WriteAllText(CONFIGFILE, json);
 				return true;
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 				return false;
 			}
 		}

@@ -167,6 +167,7 @@ namespace XIVRUS_Updater.GitHub
 	public class Releases
 	{
 		public const string GITHUBLASTRELEASEURL = "https://api.github.com/repos/xivrus/xiv_ru_weblate/releases/latest";
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public static ReleaseJson GetLastRelease()
 		{
 			try
@@ -178,8 +179,9 @@ namespace XIVRUS_Updater.GitHub
 				ReleaseJson rj = JsonConvert.DeserializeObject<ReleaseJson>(json);
 				return rj;
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 				return null;
 			}
 

@@ -161,6 +161,7 @@ namespace XIVRUS_Updater.XIVConfigs
 
 	public static class PenumbraConfig
 	{
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public static PenumbraConfigJson LoadConfig()
 		{
 			string configPath = GetConfigPath();
@@ -168,8 +169,17 @@ namespace XIVRUS_Updater.XIVConfigs
 			{
 				return null;
 			}
-			string json = File.ReadAllText(configPath);
-			return JsonConvert.DeserializeObject<PenumbraConfigJson>(json);
+			try
+			{
+				string json = File.ReadAllText(configPath);
+				return JsonConvert.DeserializeObject<PenumbraConfigJson>(json);
+			} 
+			catch(Exception ex)
+			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
+				return null;
+			}
+			
 		}
 
 		public static string GetConfigPath()

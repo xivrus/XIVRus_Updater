@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace XIVRUS_Updater
 {
@@ -27,9 +28,17 @@ namespace XIVRUS_Updater
 		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public MainWindow()
 		{
+			var currentDomain = AppDomain.CurrentDomain;
+			currentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) =>
+			{
+				Exception ex = e.ExceptionObject as Exception;
+				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
+			};
 			InitializeComponent();
+			Logger.Info(String.Format("Starting app v{0}", Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion));
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			Init();
 		}
@@ -40,6 +49,7 @@ namespace XIVRUS_Updater
 			if (!File.Exists(ConfigManager.CONFIGFILE))
 			{
 				FirstStartPageFrame.Visibility = Visibility.Visible;
+				Logger.Info("Config not found");
 				return;
 			}
 			config = ConfigManager.LoadConfig();
@@ -56,6 +66,7 @@ namespace XIVRUS_Updater
 			{
 				CurrentVersion_text.Text = "Ошибка конфига Penumbra";
 				ShowError("Ошибка конфига Penumbra", "Ошибка Penumbra", false);
+				Logger.Error("Penumbra Config error");
 				return;
 			}
 			string penumbraFolder = penumbraConfig.ModDirectory;
@@ -63,6 +74,7 @@ namespace XIVRUS_Updater
 			{
 				CurrentVersion_text.Text = "Папка Penumbra не найдена";
 				ShowError("Папка Penumbra не найдена", "Ошибка Penumbra", false);
+				Logger.Error("Penumbra Folder Not Found");
 				return;
 			}
 			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
@@ -74,6 +86,7 @@ namespace XIVRUS_Updater
 			if (modMeta == null)
 			{
 				CurrentVersion_text.Text = "Ошибка XIVRUS/meta.json";
+				Logger.Error("XIVRUS/meta error");
 				ShowError("Файл метаданных мода XIVRus повреждён", "Ошибка XIVRUS/meta.json", false);
 				return;
 			}
@@ -87,6 +100,7 @@ namespace XIVRUS_Updater
 			lastRelease = GitHub.Releases.GetLastRelease();
 			if (lastRelease == null)
 			{
+				Logger.Error("Failed to get latest GitHub release information");
 				ShowError("Не удалось получить информацию о последнем релизе");
 				return;
 			}
@@ -126,6 +140,7 @@ namespace XIVRUS_Updater
 		{
 			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 			{
+				Logger.Info("Download Complete");
 				DownloadButton.IsEnabled = true;
 				LoadCurrentVersion();
 			}));
@@ -135,10 +150,12 @@ namespace XIVRUS_Updater
 		{
 			DownloadProgressSP.Visibility = Visibility.Visible;
 			string fileurl = GitHub.Releases.GetAssetFileUrlByName(lastRelease, XIVConfigs.XIVRUSMod.GITHUBASSETNAME);
+			Logger.Trace(fileurl);
 			System.Diagnostics.Trace.WriteLine(fileurl);
-
+			Logger.Info("Start Download");
 			if (fileurl == null)
 			{
+				Logger.Error(String.Format("Could not find file '{0}' in GitHub release assets", XIVConfigs.XIVRUSMod.GITHUBASSETNAME));
 				ShowError(String.Format("Не удалось найти файл '{0}' в ассетах релиза GitHub", XIVConfigs.XIVRUSMod.GITHUBASSETNAME), closeapp: false);
 				DownloadProgressSP.Visibility = Visibility.Collapsed;
 				return;

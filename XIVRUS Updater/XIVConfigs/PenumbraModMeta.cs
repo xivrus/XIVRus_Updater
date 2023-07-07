@@ -33,6 +33,7 @@ namespace XIVRUS_Updater.XIVConfigs
 
 	public class PenumbraModMeta
 	{
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public static PenumbraModMetaJson GetMetaByDirectory(string ModDirectory)
 		{
 			try
@@ -45,8 +46,9 @@ namespace XIVRUS_Updater.XIVConfigs
 				string json = File.ReadAllText(path);
 				return JsonConvert.DeserializeObject<PenumbraModMetaJson>(json);
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 				return null;
 			}
 		}

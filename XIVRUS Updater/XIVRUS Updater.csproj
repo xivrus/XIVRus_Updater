@@ -19,12 +19,19 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="squirrel.windows" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="icon.ico" />
     <Resource Include="Resources\Logo192.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
