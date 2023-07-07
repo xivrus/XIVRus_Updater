@@ -19,6 +19,11 @@
                 <TextBlock x:Name="DownloadProgressText" TextWrapping="Wrap" Text="Старт загрузки" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                 <ProgressBar x:Name="DownloadProgressBar" Height="12" IsIndeterminate="True" Foreground="#FF9F2637"/>
             </StackPanel>
+            <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">           
+                <Hyperlink NavigateUri="https://xivrus.ru/download#changelog" RequestNavigate="Hyperlink_RequestNavigate" Foreground="White" FontSize="16">
+                    Список изменений
+                </Hyperlink>
+            </TextBlock>
         </Grid>
         <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
 
