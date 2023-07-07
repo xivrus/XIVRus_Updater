@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace XIVRUS_Updater
 {
@@ -119,6 +120,17 @@ namespace XIVRUS_Updater
 			}
 		}
 
+		
+		void DownloadComplete()
+		{
+			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+			{
+				DownloadButton.IsEnabled = true;
+				LoadCurrentVersion();
+			}));
+			
+		}
+
 		private void DownloadButton_Click(object sender, RoutedEventArgs e)
 		{
 			DownloadProgressSP.Visibility = Visibility.Visible;
@@ -133,7 +145,8 @@ namespace XIVRUS_Updater
 			}
 
 			DownloadButton.IsEnabled = false;
-			Downloader.DownloadRelease(fileurl, XIVConfigs.XIVRUSMod.GetModPath(penumbraConfig.ModDirectory), XIVConfigs.XIVRUSMod.GITHUBASSETNAME, "./", DownloadProgressBar, DownloadProgressText, DownloadButton);
+			Downloader.DelegateDownloadComplete downloadComplete = new Downloader.DelegateDownloadComplete(DownloadComplete);
+			Downloader.DownloadRelease(fileurl, XIVConfigs.XIVRUSMod.GetModPath(penumbraConfig.ModDirectory), XIVConfigs.XIVRUSMod.GITHUBASSETNAME, "./", downloadComplete, DownloadProgressBar, DownloadProgressText);
 		}
 	}
 }

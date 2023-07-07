@@ -11,7 +11,8 @@ namespace XIVRUS_Updater
 {
 	public class Downloader
 	{
-		public static void DownloadRelease(string fileUrl, string outputfolder, string fileName, string tempfolder = "./", ProgressBar progressBar = null, TextBlock statusTextBlock = null, Button downloadButton = null)
+		public delegate void DelegateDownloadComplete();
+		public static void DownloadRelease(string fileUrl, string outputfolder, string fileName, string tempfolder = "./", DelegateDownloadComplete downloadComplete = null, ProgressBar progressBar = null, TextBlock statusTextBlock = null)
 		{
 			var task = new Task(() =>
 			{
@@ -57,6 +58,11 @@ namespace XIVRUS_Updater
 					UnZipArchive(downloadpath, outputfolder);
 					File.Delete(downloadpath);
 
+					if (downloadComplete != null)
+					{
+						downloadComplete.Invoke();
+					}
+
 					if (progressBar != null)
 					{
 						progressBar.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
@@ -70,13 +76,6 @@ namespace XIVRUS_Updater
 						statusTextBlock.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 						{
 							statusTextBlock.Text = "Готово";
-						}));
-					}
-					if (downloadButton != null)
-					{
-						downloadButton.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
-						{
-							downloadButton.IsEnabled = true;
 						}));
 					}
 				});
