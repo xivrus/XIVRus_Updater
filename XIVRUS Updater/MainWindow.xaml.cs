@@ -128,7 +128,6 @@ namespace XIVRUS_Updater
 				DownloadButton.IsEnabled = true;
 				LoadCurrentVersion();
 			}));
-			
 		}
 
 		private void DownloadButton_Click(object sender, RoutedEventArgs e)

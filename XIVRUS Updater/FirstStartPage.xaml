@@ -19,19 +19,19 @@
         <StackPanel x:Name="CheckListSP" HorizontalAlignment="Center" Height="129" VerticalAlignment="Top" Width="540" Margin="0,119,0,0" >
             <StackPanel x:Name="XIVLauncherCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock x:Name="XIVLauncherCheck_TB" TextWrapping="Wrap" Text="XIV Launcher: Установлен" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
-                <Button x:Name="XIVLauncher_BTN" Content="Скачать" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Button x:Name="XIVLauncher_BTN" Content="Скачать" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Click="OpenUrl_Button_Click"/>
             </StackPanel>
             <StackPanel x:Name="DalamudCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock x:Name="DalamudCheck_TB" TextWrapping="Wrap" Text="Dalamud: Установлен" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
-                <Button x:Name="Dalamud_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Button x:Name="Dalamud_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Click="OpenUrl_Button_Click"/>
             </StackPanel>
             <StackPanel x:Name="PenumbraCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock x:Name="PenumbraCheck_TB" TextWrapping="Wrap" Text="Penumbra: Установлена" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
-                <Button x:Name="Penumbra_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Button x:Name="Penumbra_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Click="OpenUrl_Button_Click"/>
             </StackPanel>
             <StackPanel x:Name="PenumbraFolderCheckSP" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock x:Name="PenumbraFolderCheck_TB" TextWrapping="Wrap" Text="Penumbra: Настроена" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
-                <Button x:Name="PenumbraFolder_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Button x:Name="PenumbraFolder_BTN" Content="Подробнее" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Click="OpenUrl_Button_Click"/>
             </StackPanel>
         </StackPanel>
         <Button x:Name="DoneButton" Content="Готово" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" FontSize="20" Click="DoneButton_Click"/>

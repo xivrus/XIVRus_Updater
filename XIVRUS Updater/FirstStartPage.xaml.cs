@@ -88,5 +88,18 @@ namespace XIVRUS_Updater
 			ConfigManager.LoadConfig();
 			mainWindow.Init();
 		}
-	}
+
+		private void OpenUrl_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			Button button = (Button)sender;
+			if (button == XIVLauncher_BTN || button == Dalamud_BTN)
+			{
+				Process.Start(new ProcessStartInfo("https://xivrus.ru/guide/install#install-xivlauncher-guide") { UseShellExecute = true });
+			}
+			else if (button == Penumbra_BTN || button == PenumbraFolder_BTN)
+			{
+				Process.Start(new ProcessStartInfo("https://xivrus.ru/guide/install#install-penumbra") { UseShellExecute = true });
+			}
+		}
+    }
 }
