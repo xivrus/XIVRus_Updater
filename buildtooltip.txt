@@ -1,0 +1,1 @@
+csq pack -u 'XIVRUSUpdater' -v 1.0.0 -p '.\XIVRUS Updater\bin\Release\net6.0-windows' -e 'XIVRUS Updater.exe'

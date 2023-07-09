@@ -17,14 +17,16 @@ namespace XIVRUS_Updater
 
 	public static class ConfigManager
 	{
-		public const string CONFIGFILE = "./Config.json";
+		public const string CONFIGFILE = "Config.json";
+		public static string currentconfigpath = GetConfigPath();
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public static Config LoadConfig()
 		{
-			if (File.Exists(CONFIGFILE))
+			
+			if (File.Exists(currentconfigpath))
 			{
-				string json = File.ReadAllText(CONFIGFILE);
+				string json = File.ReadAllText(currentconfigpath);
 				try
 				{
 					Config config = JsonConvert.DeserializeObject<Config>(json);
@@ -43,7 +45,6 @@ namespace XIVRUS_Updater
 				return config;
 			}
 
-			
 		}
 
 		public static bool SaveConfig (Config config)
@@ -51,7 +52,7 @@ namespace XIVRUS_Updater
 			try
 			{
 				string json = JsonConvert.SerializeObject(config, Formatting.Indented);
-				File.WriteAllText(CONFIGFILE, json);
+				File.WriteAllText(currentconfigpath, json);
 				return true;
 			}
 			catch (Exception ex)
@@ -67,6 +68,16 @@ namespace XIVRUS_Updater
 			config.Version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
 			return config;
+		}
+
+		public static string GetConfigPath()
+		{
+			string localfolder = String.Format("{0}/{1}", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "XIVRUSUpdater");
+			if (!Directory.Exists(localfolder))
+			{
+				Directory.CreateDirectory(localfolder);
+			}
+			return String.Format("{0}/{1}", localfolder, CONFIGFILE);
 		}
 	}
 }

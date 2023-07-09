@@ -31,14 +31,25 @@ namespace XIVRUS_Updater
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public MainWindow()
 		{
+			Logger.Info(String.Format("Starting app v{0}", Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion));
+			Squirrel.SquirrelAwareApp.HandleEvents();
 			var currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) =>
 			{
 				Exception ex = e.ExceptionObject as Exception;
 				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 			};
+			try
+			{
+				Logger.Info("Check Updates");
+				AppUpdater.UpdateApp();
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
+				ShowError("Произошла ошибка при проверке обновления приложения. Подробнее в run.log", closeapp: false);
+			}
 			InitializeComponent();
-			Logger.Info(String.Format("Starting app v{0}", Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion));
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			Init();
 		}
@@ -46,7 +57,7 @@ namespace XIVRUS_Updater
 		public void Init()
 		{
 			FirstStartPageFrame.Visibility = Visibility.Collapsed;
-			if (!File.Exists(ConfigManager.CONFIGFILE))
+			if (!File.Exists(ConfigManager.GetConfigPath()))
 			{
 				FirstStartPageFrame.Visibility = Visibility.Visible;
 				Logger.Info("Config not found");
