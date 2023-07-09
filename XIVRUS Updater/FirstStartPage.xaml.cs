@@ -85,6 +85,7 @@ namespace XIVRUS_Updater
 				CheckList();
 				return;
 			}
+			WinDirs.CreateAppShortcutToDesktop();
 			ConfigManager.LoadConfig();
 			mainWindow.Init();
 		}
