@@ -26,6 +26,13 @@
             </TextBlock>
         </Grid>
         <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
+        <Grid x:Name="LoadingGrid" Panel.ZIndex="5001" Background="#FF252525" d:IsHidden="True">
+            <Image Source="/Resources/Logo192.png" Stretch="Fill" VerticalAlignment="Top" Width="128" Height="128" HorizontalAlignment="Center"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="298" Height="50">
+                <TextBlock TextWrapping="Wrap" Text="Проверка Обновлений" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                <ProgressBar Height="12" IsIndeterminate="True" Foreground="#FF9F2637"/>
+            </StackPanel>
+        </Grid>
 
     </Grid>
 </Window>

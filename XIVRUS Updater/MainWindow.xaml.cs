@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 
 namespace XIVRUS_Updater
 {
@@ -39,16 +40,6 @@ namespace XIVRUS_Updater
 				Exception ex = e.ExceptionObject as Exception;
 				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 			};
-			try
-			{
-				Logger.Info("Check Updates");
-				AppUpdater.UpdateApp();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
-				ShowError("Произошла ошибка при проверке обновления приложения. Подробнее в run.log", closeapp: false);
-			}
 			InitializeComponent();
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			Init();
@@ -59,6 +50,7 @@ namespace XIVRUS_Updater
 			FirstStartPageFrame.Visibility = Visibility.Collapsed;
 			if (!File.Exists(ConfigManager.GetConfigPath()))
 			{
+				SetLoadGridVisibility(false);
 				FirstStartPageFrame.Visibility = Visibility.Visible;
 				Logger.Info("Config not found");
 				return;
@@ -66,9 +58,29 @@ namespace XIVRUS_Updater
 			config = ConfigManager.LoadConfig();
 			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
 			LoadCurrentVersion();
-			LoadReleaseInfo();
-			CheckVersion();
+			var task = new Task(() =>
+			{
+				CheckAppUpdate();
+				LoadReleaseInfo();
+				CheckVersion();
+				SetLoadGridVisibility(false);
+			});
+			task.Start();
 
+		}
+
+		void CheckAppUpdate()
+		{
+			try
+			{
+				Logger.Info("Check Updates");
+				AppUpdater.UpdateApp();
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
+				ShowError("Произошла ошибка при проверке обновления приложения. Подробнее в run.log", closeapp: false);
+			}
 		}
 
 		void LoadCurrentVersion()
@@ -115,20 +127,27 @@ namespace XIVRUS_Updater
 				ShowError("Не удалось получить информацию о последнем релизе");
 				return;
 			}
-			ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
+			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+			{
+				ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
+			}));
 		}
 
 		void CheckVersion()
 		{
 			string currenversion = String.Format("v{0}", currentRusInstall.Replace("-release", ""));
-			if (currenversion == lastRelease.TagName)
+			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 			{
-				Alert_text.Text = "Установлена актуальная версия";
-			}
-			else
-			{
-				Alert_text.Text = "Доступна новая версия!";
-			}
+				ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
+				if (currenversion == lastRelease.TagName)
+				{
+					Alert_text.Text = "Установлена актуальная версия";
+				}
+				else
+				{
+					Alert_text.Text = "Доступна новая версия!";
+				}
+			}));
 		}
 
 		private void FirstStartPageFrame_LoadCompleted(object sender, NavigationEventArgs e)
@@ -154,6 +173,21 @@ namespace XIVRUS_Updater
 				Logger.Info("Download Complete");
 				DownloadButton.IsEnabled = true;
 				LoadCurrentVersion();
+			}));
+		}
+
+		void SetLoadGridVisibility(bool visibility)
+		{
+			LoadingGrid.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+			{
+				if (visibility)
+				{
+					LoadingGrid.Visibility = Visibility.Visible;
+				}
+				else
+				{
+					LoadingGrid.Visibility = Visibility.Collapsed;
+				}
 			}));
 		}
 
