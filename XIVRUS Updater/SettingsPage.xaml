@@ -10,6 +10,47 @@
       Title="SettingsPage">
 
     <Grid>
-        
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,5">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="5,0,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button x:Name="SaveSettingsButton" Content="Сохранить" Margin="0,0,0,0"/>
+            <Button x:Name="CancelSettingsButton" Content="Отмена" Click="CancelSettingsButton_Click"/>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Настройки" VerticalAlignment="Top" Margin="0,5,0,0" Foreground="White" FontSize="18"/>
+        <ScrollViewer Margin="1,34,1,30" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="5,0,5,0">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type GroupBox}">
+                        <Setter Property="Margin" Value="0,0,0,5"/>
+                    </Style>
+                </StackPanel.Resources>
+                <GroupBox Height="130" Header="Автозагрузка при старте Windows" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="5,5,0,0">
+                            <CheckBox Content="Добавить в автозагрузку" Foreground="White"/>
+                            <CheckBox Content="Закрыть программу после проверки или установки обновления" Foreground="White" Margin="15,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Width="230" Margin="5,25,0,0" VerticalAlignment="Top">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type CheckBox}">
+                                    <Setter Property="Margin" Value="5,0,0,5"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock TextWrapping="Wrap" Text="В случае обнаружения новой версии: " Margin="0,0,0,2"/>
+                            <CheckBox Content="Скачать обновление" Foreground="White"/>
+                            <CheckBox Content="Показать окно программы" Foreground="White"/>
+                            <CheckBox Content="Открыть сайт со списком изменений" Foreground="White"/>
+                        </StackPanel>
+
+                    </Grid>
+                </GroupBox>
+                <GroupBox Height="100" Header="GroupBox" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+        <TextBlock x:Name="AppVersionTB" HorizontalAlignment="Left" Margin="5,0,0,5" TextWrapping="Wrap" Text="Version: 1.0.0" VerticalAlignment="Bottom" Foreground="#FF8A8A8A"/>
+
     </Grid>
 </Page>

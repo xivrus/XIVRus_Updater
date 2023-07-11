@@ -25,7 +25,7 @@ namespace XIVRUS_Updater
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		Config config = null;
+		public Config config = null;
 		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
@@ -56,7 +56,7 @@ namespace XIVRUS_Updater
 				Logger.Info("Config not found");
 				return;
 			}
-			config = ConfigManager.LoadConfig();
+			LoadCofig();
 			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
 			LoadCurrentVersion();
 			var task = new Task(() =>
@@ -68,6 +68,11 @@ namespace XIVRUS_Updater
 			});
 			task.Start();
 
+		}
+
+		public void LoadCofig()
+		{
+			config = ConfigManager.LoadConfig();
 		}
 
 		void CheckAppUpdate()
@@ -220,7 +225,16 @@ namespace XIVRUS_Updater
 
 		private void SettingsPageFrame_LoadCompleted(object sender, NavigationEventArgs e)
 		{
+			//SettingsPage sp = (SettingsPage)SettingsPageFrame.Content;
+			//sp.mainWindow = this;
+		}
 
+		private void SettingsButton_Click(object sender, RoutedEventArgs e)
+		{
+			SettingsPage sp = (SettingsPage)SettingsPageFrame.Content;
+			sp.mainWindow = this;
+			sp.Init();
+			SettingsPageFrame.Visibility = Visibility.Visible;
 		}
 	}
 }

@@ -14,7 +14,7 @@
             <TextBlock x:Name="ServerVersion_text" HorizontalAlignment="Left" Margin="5,10,0,0" TextWrapping="Wrap" Text="Актуальная версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
             <TextBlock x:Name="CurrentVersion_text" HorizontalAlignment="Left" Margin="5,31,0,0" TextWrapping="Wrap" Text="Текущая версия: 0.0" VerticalAlignment="Top" Foreground="White"/>
             <TextBlock x:Name="Alert_text" HorizontalAlignment="Center" Margin="0,150,0,0" TextWrapping="Wrap" Text="Доступна новая версия!" VerticalAlignment="Top" Foreground="White" FontSize="16" />
-            <Button Content="Настройки" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" IsEnabled="False"/>
+            <Button x:Name="SettingsButton" Content="Настройки" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Click="SettingsButton_Click"/>
             <StackPanel x:Name="DownloadProgressSP" HorizontalAlignment="Center" VerticalAlignment="Top" Width="298" Height="50" Margin="0,218,0,0">
                 <TextBlock x:Name="DownloadProgressText" TextWrapping="Wrap" Text="Старт загрузки" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,2"/>
                 <ProgressBar x:Name="DownloadProgressBar" Height="12" IsIndeterminate="True" Foreground="#FF9F2637"/>
@@ -26,7 +26,7 @@
             </TextBlock>
         </Grid>
         <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
-        <Frame x:Name="SettingsPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="SettingsPageFrame_LoadCompleted"/>
+        <Frame x:Name="SettingsPageFrame" Content="" Panel.ZIndex="5000" Source="/SettingsPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="SettingsPageFrame_LoadCompleted"/>
         <Grid x:Name="LoadingGrid" Panel.ZIndex="5001" Background="#FF252525" d:IsHidden="True">
             <Image Source="/Resources/Logo192.png" Stretch="Fill" VerticalAlignment="Top" Width="128" Height="128" HorizontalAlignment="Center"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="298" Height="50">
