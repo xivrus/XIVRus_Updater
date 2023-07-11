@@ -26,6 +26,7 @@
             </TextBlock>
         </Grid>
         <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
+        <Frame x:Name="SettingsPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="SettingsPageFrame_LoadCompleted"/>
         <Grid x:Name="LoadingGrid" Panel.ZIndex="5001" Background="#FF252525" d:IsHidden="True">
             <Image Source="/Resources/Logo192.png" Stretch="Fill" VerticalAlignment="Top" Width="128" Height="128" HorizontalAlignment="Center"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="298" Height="50">

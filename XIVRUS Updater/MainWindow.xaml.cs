@@ -41,6 +41,7 @@ namespace XIVRUS_Updater
 				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 			};
 			InitializeComponent();
+			SettingsPageFrame.Visibility = Visibility.Collapsed;
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			Init();
 		}
@@ -215,6 +216,11 @@ namespace XIVRUS_Updater
 		{
 			Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
 			e.Handled = true;
+		}
+
+		private void SettingsPageFrame_LoadCompleted(object sender, NavigationEventArgs e)
+		{
+
 		}
 	}
 }
