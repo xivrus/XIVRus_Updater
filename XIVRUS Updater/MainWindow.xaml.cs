@@ -29,6 +29,8 @@ namespace XIVRUS_Updater
 		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
+		bool availableNewVersion = false;
+		bool isAutoLaunch = false;
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public MainWindow()
 		{
@@ -40,8 +42,6 @@ namespace XIVRUS_Updater
 				Exception ex = e.ExceptionObject as Exception;
 				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 			};
-			string[] args = Environment.GetCommandLineArgs();
-			Logger.Info(String.Format("Launch args: {0}", string.Join(" | ", args)));
 			InitializeComponent();
 			SettingsPageFrame.Visibility = Visibility.Collapsed;
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
@@ -51,6 +51,8 @@ namespace XIVRUS_Updater
 		public void Init()
 		{
 			FirstStartPageFrame.Visibility = Visibility.Collapsed;
+			string[] args = Environment.GetCommandLineArgs();
+			Logger.Info(String.Format("Launch args: {0}", string.Join(" | ", args)));
 			if (!File.Exists(ConfigManager.GetConfigPath()))
 			{
 				SetLoadGridVisibility(false);
@@ -61,20 +63,93 @@ namespace XIVRUS_Updater
 			LoadCofig();
 			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
 			LoadCurrentVersion();
+			ArgsScenarios(args);
 			var task = new Task(() =>
 			{
 				CheckAppUpdate();
 				LoadReleaseInfo();
 				CheckVersion();
 				SetLoadGridVisibility(false);
+				if (isAutoLaunch)
+				{
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						AutoLaunchScenario();
+					}));
+				}
 			});
 			task.Start();
 
 		}
 
+		void ArgsScenarios(string[] args)
+		{
+			foreach (string arg in args)
+			{
+				if (arg.ToLower() == "-autolaunch")
+				{
+					isAutoLaunch = true;
+					this.WindowState = WindowState.Minimized;
+				}
+			}
+		}
+
 		public void LoadCofig()
 		{
 			config = ConfigManager.LoadConfig();
+		}
+
+		void AutoLaunchScenario()
+		{
+			Logger.Info("Started with autolaunch flag");
+			
+			if (availableNewVersion)
+			{
+				Logger.Info("AutoLaunch: New version found! Performing actions according to the config");
+				if (config.AutoStartup_DownloadAuto)
+				{
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						DownloadLastRelease();
+					}));
+				}
+				if (config.AutoStartup_OpenChangeLog)
+				{
+					Process.Start(new ProcessStartInfo("https://xivrus.ru/download#changelog") { UseShellExecute = true });
+				}
+				if (config.AutoStartup_ShowWindow)
+				{
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						this.WindowState = WindowState.Normal;
+					}));
+				}
+			}
+			else if (config.AutoStartup_CloseAfter)
+			{
+				Logger.Info("AutoLaunch: New version not found. Closing the program due to the CloseAfter parameter");
+				Environment.Exit(0);
+			}
+		}
+
+		void DownloadLastRelease()
+		{
+			DownloadProgressSP.Visibility = Visibility.Visible;
+			string fileurl = GitHub.Releases.GetAssetFileUrlByName(lastRelease, XIVConfigs.XIVRUSMod.GITHUBASSETNAME);
+			Logger.Trace(fileurl);
+			System.Diagnostics.Trace.WriteLine(fileurl);
+			Logger.Info("Start Download");
+			if (fileurl == null)
+			{
+				Logger.Error(String.Format("Could not find file '{0}' in GitHub release assets", XIVConfigs.XIVRUSMod.GITHUBASSETNAME));
+				ShowError(String.Format("Не удалось найти файл '{0}' в ассетах релиза GitHub", XIVConfigs.XIVRUSMod.GITHUBASSETNAME), closeapp: false);
+				DownloadProgressSP.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			DownloadButton.IsEnabled = false;
+			Downloader.DelegateDownloadComplete downloadComplete = new Downloader.DelegateDownloadComplete(DownloadComplete);
+			Downloader.DownloadRelease(fileurl, XIVConfigs.XIVRUSMod.GetModPath(penumbraConfig.ModDirectory), XIVConfigs.XIVRUSMod.GITHUBASSETNAME, "./", downloadComplete, DownloadProgressBar, DownloadProgressText);
 		}
 
 		void CheckAppUpdate()
@@ -149,10 +224,12 @@ namespace XIVRUS_Updater
 				ServerVersion_text.Text = String.Format("Актуальная версия: {0}", lastRelease.TagName);
 				if (currenversion == lastRelease.TagName)
 				{
+					availableNewVersion = false;
 					Alert_text.Text = "Установлена актуальная версия";
 				}
 				else
 				{
+					availableNewVersion = true;
 					Alert_text.Text = "Доступна новая версия!";
 				}
 			}));
@@ -181,6 +258,11 @@ namespace XIVRUS_Updater
 				Logger.Info("Download Complete");
 				DownloadButton.IsEnabled = true;
 				LoadCurrentVersion();
+				if (isAutoLaunch && config.AutoStartup_CloseAfter)
+				{
+					Logger.Info("AutoLaunch: New version Downloaded! Closing the program due to the CloseAfter parameter");
+					Environment.Exit(0);
+				}
 			}));
 		}
 
@@ -201,22 +283,7 @@ namespace XIVRUS_Updater
 
 		private void DownloadButton_Click(object sender, RoutedEventArgs e)
 		{
-			DownloadProgressSP.Visibility = Visibility.Visible;
-			string fileurl = GitHub.Releases.GetAssetFileUrlByName(lastRelease, XIVConfigs.XIVRUSMod.GITHUBASSETNAME);
-			Logger.Trace(fileurl);
-			System.Diagnostics.Trace.WriteLine(fileurl);
-			Logger.Info("Start Download");
-			if (fileurl == null)
-			{
-				Logger.Error(String.Format("Could not find file '{0}' in GitHub release assets", XIVConfigs.XIVRUSMod.GITHUBASSETNAME));
-				ShowError(String.Format("Не удалось найти файл '{0}' в ассетах релиза GitHub", XIVConfigs.XIVRUSMod.GITHUBASSETNAME), closeapp: false);
-				DownloadProgressSP.Visibility = Visibility.Collapsed;
-				return;
-			}
-
-			DownloadButton.IsEnabled = false;
-			Downloader.DelegateDownloadComplete downloadComplete = new Downloader.DelegateDownloadComplete(DownloadComplete);
-			Downloader.DownloadRelease(fileurl, XIVConfigs.XIVRUSMod.GetModPath(penumbraConfig.ModDirectory), XIVConfigs.XIVRUSMod.GITHUBASSETNAME, "./", downloadComplete, DownloadProgressBar, DownloadProgressText);
+			DownloadLastRelease();
 		}
 
 		private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -238,5 +305,7 @@ namespace XIVRUS_Updater
 			sp.Init();
 			SettingsPageFrame.Visibility = Visibility.Visible;
 		}
+
+
 	}
 }

@@ -30,8 +30,8 @@
                 <GroupBox Height="130" Header="Автозагрузка при старте Windows" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <Grid>
                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="5,5,0,0">
-                            <CheckBox x:Name="AddAutoStartupCB" Content="Добавить в автозагрузку" Foreground="White" Click="AddAutoStartupCB_Click"/>
-                            <CheckBox x:Name="CloseAfterAutoStartupCB" Content="Закрыть программу после проверки или установки обновления" Foreground="White" Margin="15,0,0,0" Click="CloseAfterAutoStartupCB_Click"/>
+                            <CheckBox x:Name="AddAutoStartupCB" Content="Добавить в автозагрузку" Foreground="White" Click="AddAutoStartupCB_Click" ToolTip="Запускает программу вместе с системой"/>
+                            <CheckBox x:Name="CloseAfterAutoStartupCB" Content="Закрыть программу после проверки или установки обновления" Foreground="White" Margin="15,0,0,0" Click="CloseAfterAutoStartupCB_Click" ToolTip="В случае автозапуска программы, закрывает её если нет обновлений или обновление скачано и установлено (нужно в списке обнаружения новой версии включить &quot;Скачать обновление&quot;)"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Width="230" Margin="5,25,0,0" VerticalAlignment="Top">
                             <StackPanel.Resources>
