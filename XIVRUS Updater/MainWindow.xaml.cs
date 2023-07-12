@@ -40,6 +40,8 @@ namespace XIVRUS_Updater
 				Exception ex = e.ExceptionObject as Exception;
 				Logger.Fatal(String.Format("Unhandled exception occurred:\nMessage {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
 			};
+			string[] args = Environment.GetCommandLineArgs();
+			Logger.Info(String.Format("Launch args: {0}", string.Join(" | ", args)));
 			InitializeComponent();
 			SettingsPageFrame.Visibility = Visibility.Collapsed;
 			DownloadProgressSP.Visibility = Visibility.Collapsed;

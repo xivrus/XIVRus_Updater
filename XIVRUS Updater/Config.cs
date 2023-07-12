@@ -13,6 +13,16 @@ namespace XIVRUS_Updater
 	{
 		[JsonProperty("version")]
 		public string Version { get; set; }
+
+		[JsonProperty("autostartup_CloseAfter")]
+		public bool AutoStartup_CloseAfter { get; set; } = true;
+		[JsonProperty("autostartup_DownloadAuto")]
+		public bool AutoStartup_DownloadAuto { get; set; } = false;
+		[JsonProperty("autostartup_ShowWindow")]
+		public bool AutoStartup_ShowWindow { get; set; } = true;
+		[JsonProperty("autostartup_OpenChangeLog")]
+		public bool AutoStartup_OpenChangeLog { get; set; } = false;
+
 	}
 
 	public static class ConfigManager
@@ -30,6 +40,7 @@ namespace XIVRUS_Updater
 				try
 				{
 					Config config = JsonConvert.DeserializeObject<Config>(json);
+					config = CheckConfig(config);
 					return config;
 				}
 				catch (Exception ex)
@@ -62,10 +73,28 @@ namespace XIVRUS_Updater
 			}
 		}
 
+		public static Config CheckConfig(Config config)
+		{
+			Config defaultConfig = GetDefaultConfig();
+			if (config.Version == defaultConfig.Version)
+			{
+				return config;
+			}
+			Logger.Info(String.Format("Checking the config due to version mismatch. Current version: {0}, Version in config: {1}", defaultConfig.Version, config.Version));
+			config.Version = defaultConfig.Version;
+			SaveConfig(config);
+			return config;
+		}
+
 		public static Config GetDefaultConfig()
 		{
 			Config config = new Config();
 			config.Version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			
+			//config.AutoStartup_CloseAfter = true;
+			//config.AutoStartup_DownloadAuto = false;
+			//config.AutoStartup_ShowWindow = true;
+			//config.AutoStartup_OpenChangeLog = false;
 
 			return config;
 		}

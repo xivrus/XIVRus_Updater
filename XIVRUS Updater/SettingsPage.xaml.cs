@@ -32,6 +32,12 @@ namespace XIVRUS_Updater
 		public void Init()
 		{
 			config = mainWindow.config;
+			AddAutoStartupCB.IsChecked = WinDirs.CheckWindowsStartUp();
+			CloseAfterAutoStartupCB.IsChecked = config.AutoStartup_CloseAfter;
+			DownloadAutoStartupCB.IsChecked = config.AutoStartup_DownloadAuto;
+			ShowWindowAutoStartupCB.IsChecked = config.AutoStartup_ShowWindow;
+			OpenChangeLogAutoStartupCB.IsChecked = config.AutoStartup_OpenChangeLog;
+
 		}
 
 		private void CancelSettingsButton_Click(object sender, RoutedEventArgs e)
@@ -39,5 +45,44 @@ namespace XIVRUS_Updater
 			mainWindow.LoadCofig();
 			mainWindow.SettingsPageFrame.Visibility = Visibility.Collapsed;
         }
-    }
+
+		private void SaveSettingsButton_Click(object sender, RoutedEventArgs e)
+		{
+			mainWindow.config = config;
+			ConfigManager.SaveConfig(config);
+			mainWindow.SettingsPageFrame.Visibility = Visibility.Collapsed;
+		}
+
+		private void AddAutoStartupCB_Click(object sender, RoutedEventArgs e)
+		{
+			if ((bool)AddAutoStartupCB.IsChecked)
+			{
+				WinDirs.WindowsStartUp(true);
+			}
+			else
+			{
+				WinDirs.WindowsStartUp(false);
+			}
+        }
+
+		private void CloseAfterAutoStartupCB_Click(object sender, RoutedEventArgs e)
+		{
+			config.AutoStartup_CloseAfter = (bool)CloseAfterAutoStartupCB.IsChecked;
+		}
+
+		private void DownloadAutoStartupCB_Click(object sender, RoutedEventArgs e)
+		{
+			config.AutoStartup_DownloadAuto = (bool)DownloadAutoStartupCB.IsChecked;
+		}
+
+		private void ShowWindowAutoStartupCB_Click(object sender, RoutedEventArgs e)
+		{
+			config.AutoStartup_ShowWindow = (bool)ShowWindowAutoStartupCB.IsChecked;
+		}
+
+		private void OpenChangeLogAutoStartupCB_Click(object sender, RoutedEventArgs e)
+		{
+			config.AutoStartup_OpenChangeLog = (bool)OpenChangeLogAutoStartupCB.IsChecked;
+		}
+	}
 }

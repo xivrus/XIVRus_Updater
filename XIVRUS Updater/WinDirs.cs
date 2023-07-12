@@ -5,11 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using File = System.IO.File;
 
 namespace XIVRUS_Updater
 {
 	public static class WinDirs
 	{
+		const string STARTUPSHORTCUT = "XIVRusUpdater.lnk";
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public static string GetXIVLauncherFolder()
 		{
 			return String.Format("{0}/XIVLauncher", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
@@ -29,6 +32,37 @@ namespace XIVRUS_Updater
 			shortcut.Description = "Запустить XIVRUS Updater";
 			shortcut.TargetPath = String.Format("{0}/XIVRUSUpdater/XIVRUS Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 			shortcut.Save();
+		}
+
+		public static void WindowsStartUp(bool add = true)
+		{
+			string startupfolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+			string shortcutAddress = String.Format("{0}/{1}", startupfolder, STARTUPSHORTCUT);
+			if (add)
+			{
+				Logger.Info(String.Format("Add WindowsStartup: {0}", shortcutAddress));	
+				WshShell shell = new WshShell();
+				IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+				shortcut.Description = "Запустить XIVRUS Updater";
+				shortcut.TargetPath = String.Format("{0}/XIVRUSUpdater/XIVRUS Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+				shortcut.Arguments = "-autolaunch";
+				shortcut.Save();
+			}
+			else
+			{
+				if (File.Exists(shortcutAddress))
+				{
+					Logger.Info(String.Format("Delete WindowsStartup: {0}", shortcutAddress));
+					File.Delete(shortcutAddress);
+				}
+			}
+		}
+
+		public static bool CheckWindowsStartUp()
+		{
+			string startupfolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+			string shortcutAddress = String.Format("{0}/{1}", startupfolder, STARTUPSHORTCUT);
+			return File.Exists(shortcutAddress);
 		}
 	}
 }
