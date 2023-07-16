@@ -101,7 +101,7 @@ namespace XIVRUS_Updater
 
 		public static string GetConfigPath()
 		{
-			string localfolder = String.Format("{0}/{1}", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "XIVRUSUpdater");
+			string localfolder = String.Format("{0}/{1}", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "XIVRusUpdater");
 			if (!Directory.Exists(localfolder))
 			{
 				Directory.CreateDirectory(localfolder);

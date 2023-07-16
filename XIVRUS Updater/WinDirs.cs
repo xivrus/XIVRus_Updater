@@ -27,10 +27,10 @@ namespace XIVRUS_Updater
 		{
 			object shDesktop = (object)"Desktop";
 			WshShell shell = new WshShell();
-			string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\XIVRUS Updater.lnk";
+			string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\XIVRus Updater.lnk";
 			IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-			shortcut.Description = "Запустить XIVRUS Updater";
-			shortcut.TargetPath = String.Format("{0}/XIVRUSUpdater/XIVRUS Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+			shortcut.Description = "Запустить XIVRus Updater";
+			shortcut.TargetPath = String.Format("{0}/XIVRusUpdater/XIVRus Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 			shortcut.Save();
 		}
 
@@ -43,8 +43,8 @@ namespace XIVRUS_Updater
 				Logger.Info(String.Format("Add WindowsStartup: {0}", shortcutAddress));	
 				WshShell shell = new WshShell();
 				IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-				shortcut.Description = "Запустить XIVRUS Updater";
-				shortcut.TargetPath = String.Format("{0}/XIVRUSUpdater/XIVRUS Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+				shortcut.Description = "Запустить XIVRus Updater";
+				shortcut.TargetPath = String.Format("{0}/XIVRusUpdater/XIVRus Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 				shortcut.Arguments = "-autolaunch";
 				shortcut.Save();
 			}
