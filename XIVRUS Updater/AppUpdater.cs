@@ -12,7 +12,7 @@ namespace XIVRUS_Updater
 	{
 		public static void UpdateApp()
 		{
-			using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/FAR747/XIVRUS_Updater").Result)
+			using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/xivrus/XIVRus_Updater").Result)
 			{
 				if (mgr.IsInstalledApp)
 				{
