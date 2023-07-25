@@ -51,6 +51,7 @@ namespace XIVRUS_Updater
 		public void Init()
 		{
 			FirstStartPageFrame.Visibility = Visibility.Collapsed;
+			SetLoadGridVisibility(true);
 			string[] args = Environment.GetCommandLineArgs();
 			Logger.Info(String.Format("Launch args: {0}", string.Join(" | ", args)));
 			if (!File.Exists(ConfigManager.GetConfigPath()))
