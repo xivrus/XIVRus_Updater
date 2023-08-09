@@ -78,8 +78,11 @@ namespace XIVRUS_Updater
 						AutoLaunchScenario();
 					}));
 				}
+				ShowAlertOnTopGameWindow();
+
 			});
 			task.Start();
+			
 
 		}
 
@@ -93,6 +96,15 @@ namespace XIVRUS_Updater
 					this.WindowState = WindowState.Minimized;
 				}
 			}
+		}
+
+		public void ShowAlertOnTopGameWindow()
+		{
+			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+			{
+				AlertOnTopGame.AlertOnTopGameWindow wind = new AlertOnTopGame.AlertOnTopGameWindow(config, this);
+				wind.Show();
+			}));
 		}
 
 		public void LoadCofig()

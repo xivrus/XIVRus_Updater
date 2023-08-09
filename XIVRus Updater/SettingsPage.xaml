@@ -47,6 +47,11 @@
 
                     </Grid>
                 </GroupBox>
+                <GroupBox Height="100" Header="Запуск при старте игры" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0">
+                    <Grid>
+                        
+                    </Grid>
+                </GroupBox>
                 <GroupBox Height="100" Header="Скоро" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0"/>
             </StackPanel>
         </ScrollViewer>
