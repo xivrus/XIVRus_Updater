@@ -11,7 +11,7 @@
     <Window.Background>
         <SolidColorBrush Opacity="0.95" Color="#FF2E2E2E"/>
     </Window.Background>
-    <Grid>
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Frame x:Name="MainFrame" Content="Frame"/>
     </Grid>
 </Window>
