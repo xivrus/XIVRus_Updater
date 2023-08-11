@@ -30,7 +30,8 @@ namespace XIVRUS_Updater
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
 		bool availableNewVersion = false;
-		bool isAutoLaunch = false;
+		bool isAutoLaunch = false; // Windows Auto Launch
+		bool isXIVAutoLaunch = false; // XIV Launcher Auto-Launch
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public MainWindow()
 		{
@@ -78,6 +79,13 @@ namespace XIVRUS_Updater
 						AutoLaunchScenario();
 					}));
 				}
+				if (isXIVAutoLaunch)
+				{
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						
+					}));
+				}
 				ShowAlertOnTopGameWindow();
 
 			});
@@ -93,6 +101,11 @@ namespace XIVRUS_Updater
 				if (arg.ToLower() == "-autolaunch")
 				{
 					isAutoLaunch = true;
+					this.WindowState = WindowState.Minimized;
+				}
+				else if (arg.ToLower() == "-isxivautolaunch")
+				{
+					isXIVAutoLaunch = true;
 					this.WindowState = WindowState.Minimized;
 				}
 			}
