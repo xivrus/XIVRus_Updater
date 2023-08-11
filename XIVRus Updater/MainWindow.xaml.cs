@@ -103,7 +103,7 @@ namespace XIVRUS_Updater
 					isAutoLaunch = true;
 					this.WindowState = WindowState.Minimized;
 				}
-				else if (arg.ToLower() == "-isxivautolaunch")
+				else if (arg.ToLower() == "-xivautolaunch")
 				{
 					isXIVAutoLaunch = true;
 					this.WindowState = WindowState.Minimized;
