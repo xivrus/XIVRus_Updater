@@ -23,7 +23,11 @@ namespace XIVRUS_Updater.AlertOnTopGame
 		{
 			InitializeComponent();
 			ModDisabledAlertPage modDisabledAlertPage = new ModDisabledAlertPage();
-			MainFrame.Content = modDisabledAlertPage;
+			ModWarningAlertPage modWarningAlertPage = new ModWarningAlertPage();
+			ModUpdatingAlertPage modUpdatingAlertPage = new ModUpdatingAlertPage();
+			MainFrame.Content = modUpdatingAlertPage;
+			//MainFrame.Content = modWarningAlertPage;
+			//MainFrame.Content = modDisabledAlertPage;
 		}
 
 		private void Window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

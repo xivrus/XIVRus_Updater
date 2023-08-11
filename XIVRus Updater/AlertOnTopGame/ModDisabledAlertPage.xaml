@@ -14,10 +14,10 @@
 
         <StackPanel HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Top" Margin="0,80,0,0">
             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Внимание" VerticalAlignment="Top" Foreground="White" FontSize="34"/>
-            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">В связи с обновлением игры XIV Rus был временно отключён.</TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">В связи с обновлением игры, XIV Rus был временно отключён.</TextBlock>
             <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Ожидайте обновления мода!</TextBlock>
             <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center" Margin="0,10,0,0">Если вы видите русский перевод, то перезапустите игру!</TextBlock>
-            <TextBlock TextWrapping="Wrap" Foreground="#CCFFFFFF" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" FontStyle="Italic">*Использование устаревшей версии мода может привести к сбоям в игре</TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="#CCFFFFFF" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" FontStyle="Italic">*Использование устаревшей версии мода может привести к сбоям в игре!</TextBlock>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10">
             <Button x:Name="OkButton" Content="ОК" FontSize="20" Margin="0,0,0,5"/>
