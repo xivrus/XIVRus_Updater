@@ -30,6 +30,7 @@ namespace XIVRUS_Updater
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
 		bool availableNewVersion = false;
+		int modstatuscode = 0;
 		bool isAutoLaunch = false; // Windows Auto Launch
 		bool isXIVAutoLaunch = false; // XIV Launcher Auto-Launch
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -71,6 +72,7 @@ namespace XIVRUS_Updater
 				CheckAppUpdate();
 				LoadReleaseInfo();
 				CheckVersion();
+				LoadModStatus();
 				SetLoadGridVisibility(false);
 				if (isAutoLaunch)
 				{
@@ -83,10 +85,10 @@ namespace XIVRUS_Updater
 				{
 					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 					{
-						
+						XivAutoLaunchScenario();
 					}));
 				}
-				ShowAlertOnTopGameWindow();
+				
 
 			});
 			task.Start();
@@ -125,6 +127,29 @@ namespace XIVRUS_Updater
 			config = ConfigManager.LoadConfig();
 		}
 
+		public void LoadModStatus()
+		{
+			const string DEBUGSTATUSFILE = "./debugmodstatus.json";
+			XIVRus.ModStatusJson modStatus;
+			if (!File.Exists(DEBUGSTATUSFILE))
+			{
+				modStatus = XIVRus.ModStatus.GetModStatus();
+			}
+			else
+			{
+				modStatus = XIVRus.ModStatus.GetModStatusFromFile(DEBUGSTATUSFILE);
+			}
+			if (modStatus != null)
+			{
+				modstatuscode = modStatus.Status;
+
+			}
+			else
+			{
+				ShowError("Не удалось получить информацию о статусе мода", closeapp: false);
+			}
+		}
+
 		void AutoLaunchScenario()
 		{
 			Logger.Info("Started with autolaunch flag");
@@ -156,6 +181,14 @@ namespace XIVRUS_Updater
 				Logger.Info("AutoLaunch: New version not found. Closing the program due to the CloseAfter parameter");
 				Environment.Exit(0);
 			}
+		}
+
+		void XivAutoLaunchScenario()
+		{
+			Logger.Info("Started with XIVAutoLaunch flag");
+			
+
+			//ShowAlertOnTopGameWindow();
 		}
 
 		void DownloadLastRelease()

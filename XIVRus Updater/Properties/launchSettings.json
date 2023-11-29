@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "XIVRus Updater": {
+      "commandName": "Project"
+    },
+    "XIVRus Updater XIVAutoLaunch": {
+      "commandName": "Project",
+      "commandLineArgs": "-xivautolaunch"
+    }
+  }
+}
