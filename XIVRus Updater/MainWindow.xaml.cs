@@ -30,7 +30,7 @@ namespace XIVRUS_Updater
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
 		bool availableNewVersion = false;
-		int modstatuscode = 0;
+		int modStatusCode = 0;
 		bool isAutoLaunch = false; // Windows Auto Launch
 		bool isXIVAutoLaunch = false; // XIV Launcher Auto-Launch
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -47,6 +47,7 @@ namespace XIVRUS_Updater
 			InitializeComponent();
 			SettingsPageFrame.Visibility = Visibility.Collapsed;
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
+			DisableModButton.Visibility = Visibility.Collapsed;
 			Init();
 		}
 
@@ -141,12 +142,73 @@ namespace XIVRUS_Updater
 			}
 			if (modStatus != null)
 			{
-				modstatuscode = modStatus.Status;
+				modStatusCode = modStatus.Status;
 
 			}
 			else
 			{
 				ShowError("Не удалось получить информацию о статусе мода", closeapp: false);
+				return;
+			}
+
+			switch (modStatusCode)
+			{
+				case 1: // Warning
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						Alert_text.Text = "Текущая версия может работать нестабильно. Ожидайте обновления мода!";
+						DisableModButton.Visibility = Visibility.Visible;
+						if (!isXIVAutoLaunch)
+						{
+							MessageBox.Show("Внимание!\n\nИгра была обновлена, но XIV Rus ещё не обновился.\nУстановленная версия может работать, но возможны сбои.\nСкоро выйдет обновление мода!\n\nВы можете отключить мод до обновления или продолжить его использовать.\n*Используйте устаревшую версию на свой страх и риск!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+						}
+					}));
+					break;
+				case 2: // Disabled
+					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+					{
+						Alert_text.Text = "В связи с обновлением игры, XIV Rus был временно отключён. Ожидайте обновления мода!";
+						DownloadButton.IsEnabled = false;
+						if (!isXIVAutoLaunch)
+						{
+							MessageBox.Show("Внимание!\n\nВ связи с обновлением игры, XIV Rus был временно отключён.\nОжидайте обновления мода!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+						}
+					}));
+					DisableMod();
+					break;
+				default:
+					Logger.Info(String.Format("Mod Status: OK (code: {0})", modStatusCode));
+					break;
+			}
+		}
+
+		bool DisableMod()
+		{
+			
+			try
+			{
+				string penumbraFolder = penumbraConfig.ModDirectory;
+				if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
+				{
+					Logger.Error("(DisableMod) Mod Not Found");
+					return false;
+				}
+				string modpath = XIVConfigs.XIVRUSMod.GetModPath(penumbraFolder);
+				string metafile = String.Format("{0}/meta.json", modpath);
+				string metafiledisabled = String.Format("{0}/meta.json.disabled", modpath);
+				if (!File.Exists(metafile))
+				{
+					Logger.Error("(DisableMod) Mod Meta Not Found");
+					return false;
+				}
+				File.Move(metafile, metafiledisabled);
+				Logger.Info("Mod disabled successfully");
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(String.Format("Message {0}\nStack Trace:\n {1}", ex.Message, ex.StackTrace));
+				return false;
 			}
 		}
 
@@ -232,6 +294,7 @@ namespace XIVRUS_Updater
 				CurrentVersion_text.Text = "Ошибка конфига Penumbra";
 				ShowError("Ошибка конфига Penumbra", "Ошибка Penumbra", false);
 				Logger.Error("Penumbra Config error");
+				DisableModButton.IsEnabled = false;
 				return;
 			}
 			string penumbraFolder = penumbraConfig.ModDirectory;
@@ -240,11 +303,13 @@ namespace XIVRUS_Updater
 				CurrentVersion_text.Text = "Папка Penumbra не найдена";
 				ShowError("Папка Penumbra не найдена", "Ошибка Penumbra", false);
 				Logger.Error("Penumbra Folder Not Found");
+				DisableModButton.IsEnabled = false;
 				return;
 			}
 			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
 			{
 				CurrentVersion_text.Text = "Текущая версия: Мод отсутствует";
+				DisableModButton.IsEnabled = false;
 				return;
 			}
 			XIVConfigs.PenumbraModMetaJson modMeta = XIVConfigs.PenumbraModMeta.GetMetaByDirectory(XIVConfigs.XIVRUSMod.GetModPath(penumbraFolder));
@@ -253,6 +318,7 @@ namespace XIVRUS_Updater
 				CurrentVersion_text.Text = "Ошибка XIVRUS/meta.json";
 				Logger.Error("XIVRUS/meta error");
 				ShowError("Файл метаданных мода XIVRus повреждён", "Ошибка XIVRUS/meta.json", false);
+				DisableModButton.IsEnabled = false;
 				return;
 			}
 			CurrentVersion_text.Text = String.Format("Текущая версия: v{0}", modMeta.Version.Replace("-release", ""));
@@ -365,6 +431,18 @@ namespace XIVRUS_Updater
 			SettingsPageFrame.Visibility = Visibility.Visible;
 		}
 
-
+		private void DisableModButton_Click(object sender, RoutedEventArgs e)
+		{
+			bool dis = DisableMod();
+			if (dis)
+			{
+				MessageBox.Show("Мод успешно отключён! Если игра запущенна, то перезапустите её!", "Отключение мода", MessageBoxButton.OK, MessageBoxImage.Information);
+				DisableModButton.IsEnabled = false;
+			}
+			else
+			{
+				ShowError("Не удалось отключить мод", closeapp: false);
+			}
+		}
 	}
 }

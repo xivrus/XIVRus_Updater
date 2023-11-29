@@ -24,6 +24,7 @@
                     Список изменений
                 </Hyperlink>
             </TextBlock>
+            <Button x:Name="DisableModButton" Content="Отключить мод" ToolTip="Вы можете отключить мод и подождать обновления перевода" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40" FontSize="20" Click="DisableModButton_Click"/>
         </Grid>
         <Frame x:Name="FirstStartPageFrame" Content="" Panel.ZIndex="5000" Source="/FirstStartPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="FirstStartPageFrame_LoadCompleted"/>
         <Frame x:Name="SettingsPageFrame" Content="" Panel.ZIndex="5000" Source="/SettingsPage.xaml" d:IsHidden="True" NavigationUIVisibility="Hidden" Visibility="Visible" LoadCompleted="SettingsPageFrame_LoadCompleted"/>
