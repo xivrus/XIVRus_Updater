@@ -178,6 +178,7 @@ namespace XIVRUS_Updater
 					break;
 				default:
 					Logger.Info(String.Format("Mod Status: OK (code: {0})", modStatusCode));
+					modStatusCode = 0; // OK
 					break;
 			}
 		}
@@ -248,8 +249,15 @@ namespace XIVRUS_Updater
 		void XivAutoLaunchScenario()
 		{
 			Logger.Info("Started with XIVAutoLaunch flag");
-			
-
+			if (availableNewVersion || modStatusCode > 0)
+			{
+				ShowAlertOnTopGameWindow();
+			}
+			else
+			{
+				Logger.Info("XIVAutoLaunch: New version not found or mod status OK. Closing the program due to the CloseAfter parameter");
+				Environment.Exit(0);
+			}
 			//ShowAlertOnTopGameWindow();
 		}
 
