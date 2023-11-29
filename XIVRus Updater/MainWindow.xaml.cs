@@ -255,7 +255,7 @@ namespace XIVRUS_Updater
 			}
 			else
 			{
-				Logger.Info("XIVAutoLaunch: New version not found or mod status OK. Closing the program due to the CloseAfter parameter");
+				Logger.Info("XIVAutoLaunch: New version not found or mod status OK. Closing the program");
 				Environment.Exit(0);
 			}
 			//ShowAlertOnTopGameWindow();
