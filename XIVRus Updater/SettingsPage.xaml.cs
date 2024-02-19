@@ -89,7 +89,23 @@ namespace XIVRUS_Updater
 
 		private void AddAutoLaunchWithGameCB_Click(object sender, RoutedEventArgs e)
 		{
+			if ((bool)AddAutoLaunchWithGameCB.IsChecked)
+			{
+				//enable
+			}
+			else
+			{
+				MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите отключить запуск программы при старте игры?\n\nXIVRus Updater не влияет на производительность игры. Программа закрывается автоматически если не найдёт новой версии или статуса перевода.\n\nНастоятельно не рекомендуется отключать этот параметр!", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					//disable
+				}
+				else
+				{
+					AddAutoLaunchWithGameCB.IsChecked = true;
 
+				}
+			}
         }
 
 		private void DownloadAutoLaunchWithGameCB_Click(object sender, RoutedEventArgs e)
