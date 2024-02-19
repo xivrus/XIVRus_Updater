@@ -29,8 +29,8 @@ namespace XIVRUS_Updater
 		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
 		GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
-		bool availableNewVersion = false;
-		int modStatusCode = 0;
+		public bool availableNewVersion = false;
+		public int modStatusCode = 0;
 		bool isAutoLaunch = false; // Windows Auto Launch
 		bool isXIVAutoLaunch = false; // XIV Launcher Auto-Launch
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();

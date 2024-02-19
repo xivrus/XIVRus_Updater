@@ -20,9 +20,10 @@ namespace XIVRUS_Updater.AlertOnTopGame
 	/// </summary>
 	public partial class ModUpdatingAlertPage : Page
 	{
-		public ModUpdatingAlertPage()
+		public ModUpdatingAlertPage(Config config, MainWindow mainWindow)
 		{
 			InitializeComponent();
+			
 		}
 	}
 }
