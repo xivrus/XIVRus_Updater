@@ -23,6 +23,9 @@ namespace XIVRUS_Updater
 		[JsonProperty("autostartup_OpenChangeLog")]
 		public bool AutoStartup_OpenChangeLog { get; set; } = false;
 
+		[JsonProperty("launchWithGame_DownloadAuto")]
+		public bool LaunchWithGame_DownloadAuto { get; set; } = true;
+
 	}
 
 	public static class ConfigManager

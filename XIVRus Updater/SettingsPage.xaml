@@ -49,7 +49,34 @@
                 </GroupBox>
                 <GroupBox Height="100" Header="Запуск при старте игры" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0">
                     <Grid>
-                        
+                        <StackPanel HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type CheckBox}">
+                                    <Setter Property="Margin" Value="5,0,0,5"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <CheckBox x:Name="AddAutoLaunchWithGameCB" Content="Запускать вместе с игрой" Foreground="White" Click="AddAutoLaunchWithGameCB_Click" IsChecked="False">
+                                <CheckBox.ToolTip>
+                                    <TextBlock>
+                                        Добавляет программу в автозапуск XIVLauncher.
+                                        <LineBreak />
+                                        Если не будет обнаружено новой версии или статуса мода - программа закроется автоматически.
+                                        <LineBreak />
+                                        <Bold>Рекомендуется не отключать этот параметр!</Bold>
+                                    </TextBlock>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                            <CheckBox x:Name="DownloadAutoLaunchWithGameCB" Content="Скачать обновление при запуске игры" Foreground="White" Click="DownloadAutoLaunchWithGameCB_Click" IsChecked="False" IsEnabled="{Binding IsChecked, ElementName=AddAutoLaunchWithGameCB}">
+                                <CheckBox.ToolTip>
+                                    <TextBlock>
+                                        Автоматически загрузит и установит обновление перевода при запуске игры. 
+                                        <LineBreak />
+                                        Вам потребуется перезапустить игру после завершения обновления!
+                                    </TextBlock>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                        </StackPanel>
+
                     </Grid>
                 </GroupBox>
                 <GroupBox Height="100" Header="Скоро" Foreground="White" BorderBrush="White" BorderThickness="0,0.2,0,0"/>

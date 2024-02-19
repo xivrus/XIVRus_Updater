@@ -38,6 +38,8 @@ namespace XIVRUS_Updater
 			ShowWindowAutoStartupCB.IsChecked = config.AutoStartup_ShowWindow;
 			OpenChangeLogAutoStartupCB.IsChecked = config.AutoStartup_OpenChangeLog;
 
+			DownloadAutoLaunchWithGameCB.IsChecked = config.LaunchWithGame_DownloadAuto;
+
 		}
 
 		private void CancelSettingsButton_Click(object sender, RoutedEventArgs e)
@@ -83,6 +85,16 @@ namespace XIVRUS_Updater
 		private void OpenChangeLogAutoStartupCB_Click(object sender, RoutedEventArgs e)
 		{
 			config.AutoStartup_OpenChangeLog = (bool)OpenChangeLogAutoStartupCB.IsChecked;
+		}
+
+		private void AddAutoLaunchWithGameCB_Click(object sender, RoutedEventArgs e)
+		{
+
+        }
+
+		private void DownloadAutoLaunchWithGameCB_Click(object sender, RoutedEventArgs e)
+		{
+			config.LaunchWithGame_DownloadAuto = (bool)DownloadAutoLaunchWithGameCB.IsChecked;
 		}
 	}
 }
