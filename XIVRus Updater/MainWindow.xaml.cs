@@ -391,6 +391,7 @@ namespace XIVRUS_Updater
 				Logger.Info("Download Complete");
 				DownloadButton.IsEnabled = true;
 				LoadCurrentVersion();
+				Alert_text.Text = "Перевод успешно обновлён!";
 				if (isAutoLaunch && config.AutoStartup_CloseAfter)
 				{
 					Logger.Info("AutoLaunch: New version Downloaded! Closing the program due to the CloseAfter parameter");
