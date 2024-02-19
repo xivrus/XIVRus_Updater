@@ -14,8 +14,8 @@
 
         <StackPanel HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Top" Margin="0,60,0,0">
             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Внимание" VerticalAlignment="Top" Foreground="White" FontSize="34"/>
-            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Игра была обновлена, но XIV Rus ещё не обновился.</TextBlock>
-            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Установленная версия может работать, но возможны сбои.</TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Используемая версия XIV Rus несовместима с текущей версией игры.</TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Установленная версия продолжит работать, но возможны сбои.</TextBlock>
             <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center">Скоро выйдет обновление мода!</TextBlock>
             <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="28" HorizontalAlignment="Center" Margin="0,10,0,0">Вы можете отключить мод до обновления или продолжить его использовать.</TextBlock>
             <TextBlock TextWrapping="Wrap" Foreground="#CCFFFFFF" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" FontStyle="Italic">*Используйте устаревшую версию на свой страх и риск!</TextBlock>
