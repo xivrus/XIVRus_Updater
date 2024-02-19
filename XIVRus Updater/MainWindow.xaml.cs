@@ -26,8 +26,8 @@ namespace XIVRUS_Updater
 	public partial class MainWindow : Window
 	{
 		public Config config = null;
-		XIVConfigs.PenumbraConfigJson penumbraConfig = null;
-		GitHub.ReleaseJson lastRelease = null;
+		public XIVConfigs.PenumbraConfigJson penumbraConfig = null;
+		public GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
 		public bool availableNewVersion = false;
 		public int modStatusCode = 0;
@@ -49,6 +49,7 @@ namespace XIVRUS_Updater
 			DownloadProgressSP.Visibility = Visibility.Collapsed;
 			DisableModButton.Visibility = Visibility.Collapsed;
 			Init();
+			
 		}
 
 		public void Init()

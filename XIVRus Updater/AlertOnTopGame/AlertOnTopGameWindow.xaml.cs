@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XIVRUS_Updater.XIVConfigs;
+using XIVRUS_Updater.XIVRus;
 
 namespace XIVRUS_Updater.AlertOnTopGame
 {
@@ -30,6 +33,25 @@ namespace XIVRUS_Updater.AlertOnTopGame
 			modDisabledAlertPage = new ModDisabledAlertPage();
 			modWarningAlertPage = new ModWarningAlertPage();
 			modUpdatingAlertPage = new ModUpdatingAlertPage(config, mainWindow);
+
+			mainWindow.Visibility = Visibility.Collapsed;
+
+			string penumbraFolder = mainWindow.penumbraConfig.ModDirectory;
+			string modpath = XIVConfigs.XIVRUSMod.GetModPath(penumbraFolder);
+			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
+			{
+				Logger.Error("LaunchWithGame: Mod Not Found. Closing the program.");
+				Environment.Exit(0);
+				return;
+			}
+			string disabledmetafile = String.Format("{0}/meta.json.disabled", modpath);
+			bool moddisabled = File.Exists(disabledmetafile);
+			if (moddisabled && mainWindow.modStatusCode != 0)
+			{
+				Logger.Error("LaunchWithGame: Mod is disabled and its status is not 0. Closing the program.");
+				Environment.Exit(0);
+				return;
+			}
 
 			if (mainWindow.availableNewVersion)
 			{
