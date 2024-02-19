@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XIVRUS_Updater"
         mc:Ignorable="d"
-        Title="HIVRus Updater" Height="450" Width="800" Background="#FF252525" ResizeMode="CanMinimize" Icon="/icon.ico" WindowStartupLocation="CenterScreen">
+        Title="XIVRus Updater" Height="450" Width="800" Background="#FF252525" ResizeMode="CanMinimize" Icon="/icon.ico" WindowStartupLocation="CenterScreen">
     <Grid >
         <Grid x:Name="MainGrid">
 
