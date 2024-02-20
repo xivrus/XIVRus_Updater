@@ -64,5 +64,10 @@ namespace XIVRUS_Updater
 			string shortcutAddress = String.Format("{0}/{1}", startupfolder, STARTUPSHORTCUT);
 			return File.Exists(shortcutAddress);
 		}
+
+		public static string GetAppInstallPath()
+		{
+			return String.Format("{0}\\XIVRusUpdater\\XIVRus Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+		}
 	}
 }

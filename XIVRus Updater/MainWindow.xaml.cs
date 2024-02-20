@@ -27,6 +27,7 @@ namespace XIVRUS_Updater
 	{
 		public Config config = null;
 		public XIVConfigs.PenumbraConfigJson penumbraConfig = null;
+		public XIVConfigs.XIVLauncher.LauncherConfigV3 xivLauncherConfig = null;
 		public GitHub.ReleaseJson lastRelease = null;
 		string currentRusInstall = "0.0";
 		public bool availableNewVersion = false;
@@ -67,6 +68,8 @@ namespace XIVRUS_Updater
 			}
 			LoadCofig();
 			penumbraConfig = XIVConfigs.PenumbraConfig.LoadConfig();
+			LoadXIVLauncherConfig();
+			CheckAppInXIVLauncherAutoStart();
 			LoadCurrentVersion();
 			ArgsScenarios(args);
 			var task = new Task(() =>
@@ -127,6 +130,28 @@ namespace XIVRUS_Updater
 		public void LoadCofig()
 		{
 			config = ConfigManager.LoadConfig();
+		}
+
+		public void LoadXIVLauncherConfig()
+		{
+			xivLauncherConfig = XIVConfigs.XIVLauncher.LauncherConfigManager.LoadConfigV3();
+			if (xivLauncherConfig == null)
+			{
+				ShowError("Конфигурация XIV Launcher не может быть пустой. Попробуйте запустить XIV Launcher, а потом снова XIVRus Updater", closeapp: true);
+			}
+		}
+
+		void CheckAppInXIVLauncherAutoStart()
+		{
+			bool appexist = XIVConfigs.XIVLauncher.LauncherConfigManager.ExistThisAppInAutoLaunch(xivLauncherConfig);
+			if (!appexist)
+			{
+				bool added = XIVConfigs.XIVLauncher.LauncherConfigManager.AddThisAppInAutoLaunch(xivLauncherConfig);
+				if (!added)
+				{
+					ShowError("Не удалось внести изменения в конфигурацию XIV Launcher");
+				}
+			}
 		}
 
 		public void LoadModStatus()
