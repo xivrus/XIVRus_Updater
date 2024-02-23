@@ -194,7 +194,7 @@ namespace XIVRUS_Updater
 				case 2: // Disabled
 					this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 					{
-						Alert_text.Text = "В связи с обновлением игры, XIV Rus был временно отключён. Ожидайте обновления мода!";
+						Alert_text.Text = "В связи с обновлением игры XIV Rus был временно отключён. Ожидайте обновления мода!";
 						DownloadButton.IsEnabled = false;
 						if (!isXIVAutoLaunch)
 						{
