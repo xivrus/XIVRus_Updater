@@ -59,7 +59,7 @@ namespace XIVRUS_Updater.AlertOnTopGame
 			mainWindow.ShowWindow();
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void OpenDiscordButton_Click(object sender, RoutedEventArgs e)
 		{
 			WinDirs.OpenDiscordURL();
 		}

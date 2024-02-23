@@ -30,11 +30,11 @@ namespace XIVRUS_Updater.AlertOnTopGame
 		public AlertOnTopGameWindow(Config config, MainWindow mainWindow, bool modJustNowDisabled)
 		{
 			InitializeComponent();
-			modDisabledAlertPage = new ModDisabledAlertPage();
+			modDisabledAlertPage = new ModDisabledAlertPage(this, mainWindow);
 			modWarningAlertPage = new ModWarningAlertPage(this, mainWindow);
 			modUpdatingAlertPage = new ModUpdatingAlertPage(config, mainWindow);
 #if DEBUG
-			modJustNowDisabled = true; // DEBUG ONLY
+			//modJustNowDisabled = true; // DEBUG ONLY
 #endif
 
 			mainWindow.Visibility = Visibility.Collapsed;

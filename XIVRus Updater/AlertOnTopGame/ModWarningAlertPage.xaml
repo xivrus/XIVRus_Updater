@@ -25,7 +25,7 @@
             <Button x:Name="DisableModButton" Content="Отключить мод" FontSize="18" Margin="0,0,0,5" Click="DisableModButton_Click"/>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="OpenXIVRusUpdaterButton" Content="Открыть XIV Rus Updater" FontSize="14" Click="OpenXIVRusUpdaterButton_Click"/>
-                <Button Content="Перейти в Discord XIV Rus" FontSize="14" Margin="10,0,0,0" Click="Button_Click"/>
+                <Button x:Name="OpenDiscordButton" Content="Перейти в Discord XIV Rus" FontSize="14" Margin="10,0,0,0" Click="OpenDiscordButton_Click"/>
             </StackPanel>
         </StackPanel>
 

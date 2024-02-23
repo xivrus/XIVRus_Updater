@@ -20,9 +20,33 @@ namespace XIVRUS_Updater.AlertOnTopGame
 	/// </summary>
 	public partial class ModDisabledAlertPage : Page
 	{
-		public ModDisabledAlertPage()
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+		AlertOnTopGameWindow alertOnTopGameWindow;
+		MainWindow mainWindow;
+		public ModDisabledAlertPage(AlertOnTopGameWindow alertwindow, MainWindow main)
 		{
 			InitializeComponent();
+			alertOnTopGameWindow = alertwindow;
+			mainWindow = main;
+		}
+
+		private void OkButton_Click(object sender, RoutedEventArgs e)
+		{
+			Logger.Info("User chose to continue");
+			MessageBox.Show("ПЕРЕЗАПУСТИТЕ ИГРУ!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+			Environment.Exit(0);
+		}
+
+		private void OpenXIVRusUpdaterButton_Click(object sender, RoutedEventArgs e)
+		{
+			Logger.Info("Open XIVRus Updater. Hide this window");
+			alertOnTopGameWindow.Close();
+			mainWindow.ShowWindow();
+		}
+
+		private void OpenDiscordButton_Click(object sender, RoutedEventArgs e)
+		{
+			WinDirs.OpenDiscordURL();
 		}
 	}
 }
