@@ -1,6 +1,7 @@
 ﻿using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace XIVRUS_Updater
 	public static class WinDirs
 	{
 		const string STARTUPSHORTCUT = "XIVRusUpdater.lnk";
+		const string DISCORDURL = "https://discord.gg/e6z2VY8fNj";
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public static string GetXIVLauncherFolder()
 		{
@@ -68,6 +70,11 @@ namespace XIVRUS_Updater
 		public static string GetAppInstallPath()
 		{
 			return String.Format("{0}\\XIVRusUpdater\\XIVRus Updater.exe", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+		}
+
+		public static void OpenDiscordURL()
+		{
+			Process.Start(new ProcessStartInfo(DISCORDURL) { UseShellExecute = true });
 		}
 	}
 }

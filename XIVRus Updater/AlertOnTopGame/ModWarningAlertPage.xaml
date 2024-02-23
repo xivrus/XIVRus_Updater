@@ -21,11 +21,11 @@
             <TextBlock TextWrapping="Wrap" Foreground="#CCFFFFFF" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" FontStyle="Italic">*Используйте устаревшую версию на свой страх и риск!</TextBlock>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <Button x:Name="OkButton" Content="Продолжить" FontSize="18" Margin="0,0,0,5"/>
-            <Button x:Name="DisableModButton" Content="Отключить мод" FontSize="18" Margin="0,0,0,5"/>
+            <Button x:Name="OkButton" Content="Продолжить" FontSize="18" Margin="0,0,0,5" Click="OkButton_Click"/>
+            <Button x:Name="DisableModButton" Content="Отключить мод" FontSize="18" Margin="0,0,0,5" Click="DisableModButton_Click"/>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="OpenXIVRusUpdaterButton" Content="Открыть XIV Rus Updater" FontSize="14"/>
-                <Button Content="Перейти в Discord XIV Rus" FontSize="14" Margin="10,0,0,0"/>
+                <Button x:Name="OpenXIVRusUpdaterButton" Content="Открыть XIV Rus Updater" FontSize="14" Click="OpenXIVRusUpdaterButton_Click"/>
+                <Button Content="Перейти в Discord XIV Rus" FontSize="14" Margin="10,0,0,0" Click="Button_Click"/>
             </StackPanel>
         </StackPanel>
 

@@ -34,6 +34,7 @@ namespace XIVRUS_Updater
 		public int modStatusCode = 0;
 		bool isAutoLaunch = false; // Windows Auto Launch
 		bool isXIVAutoLaunch = false; // XIV Launcher Auto-Launch
+		bool modJustNowDisabled = false;
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		public MainWindow()
 		{
@@ -122,7 +123,7 @@ namespace XIVRUS_Updater
 		{
 			this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
 			{
-				AlertOnTopGame.AlertOnTopGameWindow wind = new AlertOnTopGame.AlertOnTopGameWindow(config, this);
+				AlertOnTopGame.AlertOnTopGameWindow wind = new AlertOnTopGame.AlertOnTopGameWindow(config, this, modJustNowDisabled);
 				wind.Show();
 			}));
 		}
@@ -186,7 +187,7 @@ namespace XIVRUS_Updater
 						DisableModButton.Visibility = Visibility.Visible;
 						if (!isXIVAutoLaunch)
 						{
-							MessageBox.Show("Внимание!\n\nИгра была обновлена, но XIV Rus ещё не обновился.\nУстановленная версия может работать, но возможны сбои.\nСкоро выйдет обновление мода!\n\nВы можете отключить мод до обновления или продолжить его использовать.\n*Используйте устаревшую версию на свой страх и риск!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+							MessageBox.Show("Внимание!\n\nИспользуемая версия XIV Rus несовместима с текущей версией игры.\nУстановленная версия может работать, но возможны сбои.\nСкоро выйдет обновление мода!\n\nВы можете отключить мод до обновления или продолжить его использовать.\n*Используйте устаревшую версию на свой страх и риск!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
 						}
 					}));
 					break;
@@ -197,7 +198,7 @@ namespace XIVRUS_Updater
 						DownloadButton.IsEnabled = false;
 						if (!isXIVAutoLaunch)
 						{
-							MessageBox.Show("Внимание!\n\nВ связи с обновлением игры, XIV Rus был временно отключён.\nОжидайте обновления мода!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+							MessageBox.Show("Внимание!\n\nВ связи с обновлением игры XIV Rus был временно отключён.\nОжидайте обновления мода!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
 						}
 					}));
 					DisableMod();
@@ -209,7 +210,7 @@ namespace XIVRUS_Updater
 			}
 		}
 
-		bool DisableMod()
+		public bool DisableMod()
 		{
 			
 			try
@@ -230,6 +231,7 @@ namespace XIVRUS_Updater
 				}
 				File.Move(metafile, metafiledisabled);
 				Logger.Info("Mod disabled successfully");
+				modJustNowDisabled = true;
 				return true;
 			}
 			catch (Exception ex)
@@ -439,6 +441,13 @@ namespace XIVRUS_Updater
 					LoadingGrid.Visibility = Visibility.Collapsed;
 				}
 			}));
+		}
+
+		public void ShowWindow()
+		{
+			this.Show();
+			this.Activate();
+			this.WindowState = WindowState.Normal;
 		}
 
 		private void DownloadButton_Click(object sender, RoutedEventArgs e)

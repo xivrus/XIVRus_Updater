@@ -30,10 +30,10 @@ namespace XIVRUS_Updater.AlertOnTopGame
 			InitializeComponent();
 			OkButton.Visibility = Visibility.Collapsed;
 
-			DownloadLastRelease(mainWindow);
+			//DownloadLastRelease(mainWindow);
 		}
 
-		void DownloadLastRelease(MainWindow mainWindow)
+		public void DownloadLastRelease(MainWindow mainWindow)
 		{
 			mwindow = mainWindow;
 			DownloadProgressSP.Visibility = Visibility.Visible;

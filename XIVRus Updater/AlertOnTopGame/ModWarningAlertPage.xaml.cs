@@ -20,9 +20,48 @@ namespace XIVRUS_Updater.AlertOnTopGame
 	/// </summary>
 	public partial class ModWarningAlertPage : Page
 	{
-		public ModWarningAlertPage()
+		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+		AlertOnTopGameWindow alertOnTopGameWindow;
+		MainWindow mainWindow;
+		public ModWarningAlertPage(AlertOnTopGameWindow alertwindow, MainWindow main)
 		{
 			InitializeComponent();
+			alertOnTopGameWindow = alertwindow;
+			mainWindow = main;
+		}
+
+		private void OkButton_Click(object sender, RoutedEventArgs e)
+		{
+			Logger.Info("User chose to continue");
+			Environment.Exit(0);
+		}
+
+		private void DisableModButton_Click(object sender, RoutedEventArgs e)
+		{
+			bool dis = mainWindow.DisableMod();
+			if (dis)
+			{
+				Logger.Info("Mod has been successfully disabled. Exit");
+				MessageBox.Show("Мод успешно отключён!\n\nПЕРЕЗАПУСТИТЕ ИГРУ!", "Отключение мода", MessageBoxButton.OK, MessageBoxImage.Information);
+				DisableModButton.IsEnabled = false;
+				Environment.Exit(0);
+			}
+			else
+			{
+				MessageBox.Show("Не удалось отключить мод", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private void OpenXIVRusUpdaterButton_Click(object sender, RoutedEventArgs e)
+		{
+			Logger.Info("Open XIVRus Updater. Hide this window");
+			alertOnTopGameWindow.Close();
+			mainWindow.ShowWindow();
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			WinDirs.OpenDiscordURL();
 		}
 	}
 }

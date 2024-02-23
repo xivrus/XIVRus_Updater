@@ -27,38 +27,43 @@ namespace XIVRUS_Updater.AlertOnTopGame
 		ModDisabledAlertPage modDisabledAlertPage;
 		ModWarningAlertPage modWarningAlertPage;
 		ModUpdatingAlertPage modUpdatingAlertPage;
-		public AlertOnTopGameWindow(Config config, MainWindow mainWindow)
+		public AlertOnTopGameWindow(Config config, MainWindow mainWindow, bool modJustNowDisabled)
 		{
 			InitializeComponent();
 			modDisabledAlertPage = new ModDisabledAlertPage();
-			modWarningAlertPage = new ModWarningAlertPage();
+			modWarningAlertPage = new ModWarningAlertPage(this, mainWindow);
 			modUpdatingAlertPage = new ModUpdatingAlertPage(config, mainWindow);
+#if DEBUG
+			modJustNowDisabled = true; // DEBUG ONLY
+#endif
 
 			mainWindow.Visibility = Visibility.Collapsed;
 
 			string penumbraFolder = mainWindow.penumbraConfig.ModDirectory;
 			string modpath = XIVConfigs.XIVRUSMod.GetModPath(penumbraFolder);
-			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder))
+			string disabledmetafile = String.Format("{0}/meta.json.disabled", modpath);
+			bool moddisabled = File.Exists(disabledmetafile);
+			Logger.Info(String.Format("Mod Disabled: {0}", moddisabled));
+			if (!XIVConfigs.XIVRUSMod.ModExist(penumbraFolder) && !moddisabled)
 			{
 				Logger.Error("LaunchWithGame: Mod Not Found. Closing the program.");
 				Environment.Exit(0);
 				return;
 			}
-			string disabledmetafile = String.Format("{0}/meta.json.disabled", modpath);
-			bool moddisabled = File.Exists(disabledmetafile);
-			if (moddisabled && mainWindow.modStatusCode != 0)
+			if (moddisabled && mainWindow.modStatusCode != 0 && !modJustNowDisabled)
 			{
 				Logger.Error("LaunchWithGame: Mod is disabled and its status is not 0. Closing the program.");
 				Environment.Exit(0);
 				return;
 			}
 
-			if (mainWindow.availableNewVersion)
+			if (mainWindow.availableNewVersion && !modJustNowDisabled)
 			{
 				if (config.LaunchWithGame_DownloadAuto)
 				{
 					Logger.Info("New version discovered. Opening page modUpdatingAlertPage.");
 					MainFrame.Content = modUpdatingAlertPage;
+					modUpdatingAlertPage.DownloadLastRelease(mainWindow);
 				}
 				else
 				{
